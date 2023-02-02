@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BibliotecaJogos.API.Data;
 using BibliotecaJogos.API.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,39 +12,24 @@ namespace BibliotecaJogos.API.Controllers
     [Route("api/[controller]")]
     public class JogoController : ControllerBase
     {
-        public IEnumerable<Jogo> _jogo = new Jogo[]{
-             
-                new Jogo(){
-                    JogoId = 1,
-                    Nome = "ARK: SURVIVAL EVOLVED",
-                    Descricao = @"Jogo que tem que domar dinossauros, depois usar eles e suas habilidades para poder sobreviver",
-                    Valor = 55.99
-                },
-                 new Jogo(){
-                    JogoId = 2,
-                    Nome = "Rockeat League",
-                    Descricao = @"Jogo de futebol com carros",
-                    Valor = 36.99
-                }
-               
-            };
+        private readonly DataContext _context;
 
-
-        public JogoController()
+        public JogoController(DataContext context)
         {
-
+            _context = context;
+            
         }
 
         [HttpGet]
         public IEnumerable<Jogo> Get()
         {
-            return _jogo;
+            return _context.Jogos;
         }
 
         [HttpGet("{id}")]
-        public IEnumerable<Jogo> GetById(int id)
+        public Jogo GetById(int id)
         {
-            return _jogo.Where(jogo => jogo.JogoId == (id));
+            return _context.Jogos.FirstOrDefault(jogo => jogo.JogoId == (id));
         }
     }
 }
