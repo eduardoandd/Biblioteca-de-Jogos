@@ -1,6 +1,60 @@
 <h1>Jogos</h1>
-<div *ngFor="let jogo of jogos">
-  <p>{{jogo.nome}}</p>
-  <p>{{jogo.valor}}</p>
-  <hr>
+<hr>
+
+<div class="form-inline">
+  <div class="form-group mb-2">
+    <label class="mr-2">Filtro:</label>
+    <input type="text" class="form-control mr-2"
+    placeholder="Buscar"
+    [(ngModel)]="filtroLista"
+    >
+  </div>
 </div>
+<table class="table table-striped">
+  <thead class="thead-dark">
+    <tr>
+      <th>
+        <button (click)="alterarImagem()"
+                type="button"
+                class="btn btn-outline-light btn-sm">
+                {{mostrarImagem ? 'Exibir' : 'Ocultar'}}
+        </button>
+      </th>
+      <th>#</th>
+      <th>Nome</th>
+      <th>Descrição</th>
+      <th>Valor</th>
+    </tr>
+  </thead>
+  <tbody *ngIf="jogos && jogos.length">
+    <tr *ngFor=" let jogo of jogosFiltrados">
+      <td>
+        <img [collapse]="mostrarImagem"
+             [isAnimated]="true"
+         src="{{jogo.imagemURL}}"
+        [style.width.px]="widthImg"
+        [style.margin.px]="marginImg">
+      </td>
+      <td>
+        {{jogo.jogoId}}
+      </td>
+      <td>{{jogo.nome}}</td>
+      <td>{{jogo.descricao}}</td>
+      <td>{{jogo.valor}}</td>
+      <td>
+        <button type="button" class="btn btn-primary btn-sm mr-2">Editar</button>
+        <button type="button" class="btn btn-danger btn-sm">Excluir</button>
+
+      </td>
+    </tr>
+  </tbody>
+  <tfoot *ngIf="!jogos.length">
+    <tr>
+      <td colspan="8" class="text-center">
+        <h4>Nenhum jogo encontrado</h4>
+      </td>
+    </tr>
+  </tfoot>
+</table>
+
+
